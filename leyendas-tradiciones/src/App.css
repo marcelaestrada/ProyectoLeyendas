@@ -1,0 +1,222 @@
+.App {
+  text-align: center;
+  background-color: #6341B4;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255, 255, 255);
+  background-color: #442D7C;
+  /* Establece un alto para el encabezado */
+  height: 100px;
+  /* Establece un ancho para el encabezado */
+  width: 100%;
+  /* Agrega bordes redondeados */
+  border-bottom-left-radius: 75px;
+  border-bottom-right-radius: 75px;
+  position: relative;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.App {
+  text-align: center;
+  font-family: 'Fraunces', serif;
+}
+
+.level-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.level {
+  width: 100px;
+  height: 100px;
+  background-color: #3498db;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 5px;
+}
+
+.level.locked {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-rows: repeat(16, 4.5cm); /* 8 filas de 3 cm de altura cada una */
+  grid-template-columns: repeat(9, 3.5cm); /* 11 columnas de 3 cm de ancho cada una */
+  gap: 10px; /* Espacio entre celdas */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-content: center; /* Centra el contenido verticalmente */
+  height: auto; /* Altura del contenedor ajustada automáticamente */
+}
+
+.grid-item {
+  /* Estilos para cada celda del grid */
+  border: 1px solid #aca6a600;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  width: 3cm; /* Ancho de la celda */
+  height: 3cm; /* Altura de la celda */
+  display: flex; /* Para usar flexbox para centrar el contenido */
+  justify-content: center; /* Centra horizontalmente en el grid-item */
+  align-items: center; /* Centra verticalmente en el grid-item */
+}
+
+.image {
+  background-image: url('https://th.bing.com/th/id/OIP.YciYFjv-v-gcv1bLkeSOGgHaHa?pid=ImgDet&rs=1'); /* Ruta de la imagen */
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+}
+
+h1 {
+  font-size: 60px;
+  color: #DAFA8B; /* Establece el color del texto en amarillo */
+}
+
+.puntos h1 {
+  color: #F85ACA;
+}
+
+.puntuacion h1 {
+  color: rgb(242, 223, 252);
+  font-family: 'Poppins', sans-serif;
+  font-size: 25px;
+}
+
+.centered-container {
+  display: flex;
+  justify-content: center; /* Centra los cuadros horizontalmente */
+  align-items: center; /* Centra los cuadros verticalmente */
+  max-width: 800px; /* Establece el ancho máximo del contenedor */
+  margin: 0 auto; /* Centra el contenedor en la pantalla */
+}
+
+.image-box {
+  background-color: #DAFA8B; /* Fondo amarillo */
+  padding: 10px; /* Espacio interior */
+  margin-right: 10px; /* Espacio entre las imágenes */
+  border-bottom-left-radius: 35px;
+  border-bottom-right-radius: 35px;
+  border-top-left-radius: 35px;
+  border-top-right-radius: 35px;
+}
+
+.image-box:hover {
+  background-color: #F85ACA; /* Fondo amarillo */
+}
+
+img {
+  max-width: 100%; /* Ajusta el ancho máximo de las imágenes */
+  height: auto; /* Mantén la proporción de aspecto */
+}
+
+p {
+  color: #6341B4;
+  font-family: 'Fraunces', sans-serif;
+  font-size: 25px;
+}
+
+/* Estilo para figuras geométricas */
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px); /* Cambia la distancia de movimiento */
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.geometric-shape {
+  position: absolute;
+  background-color: #ff66a3; /* Color de fondo */
+  width: 50px; /* Ancho */
+  height: 50px; /* Alto */
+  border-radius: 50%; /* Forma circular */
+  animation: move 2s infinite; /* Nombre de la animación y duración */
+}
+
+.regalito:hover {
+  height: 100px;
+  width: 500px;
+}
+
+/* Modal */
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+}
+
+.modal {
+  width: 1024px;
+  height: 500px;
+  background-image: url('./backgrounds/Paisaje4.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
