@@ -30,26 +30,27 @@ const App = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
-  const [selectedPrompt, setSelectedPrompt] = useState(null);
-  const [options, setOptions] = useState([]);
-
-  const aumentarPuntuacion = () => {
-    setPuntuacion(puntuacion + 5);
-  };
+  const [intro, setIntro] = useState(0);
+  const [opcion1, setOpcion1] = useState(false);
+  const [opcion2, setOpcion2] = useState(null);
 
   // Modal y modelo ChatGPT
   const openModal = async (imageId, level) => {
     try {
       const response = await generarCompletacion(imageId);
-  
-      if (response && response.text) {
-        const textogenerado = response.text;
+      console.log(response)
+
+      if (response) {
         setSelectedLevel(level);
         setModalIsOpen(true);
-        console.log(textogenerado);
   
-        const resultado = separarTexto(textogenerado);
-        console.log(resultado)
+        setIntro(getIntro(response));
+        setOpcion1(getOpcion1(response));
+        setOpcion2(getOpcion2(response));
+
+        console.log("Intro:", intro);
+        console.log("Opcion 1:", opcion1);
+        console.log("Opcion 2:", opcion2);
 
       } else {
         console.error('La respuesta de generarCompletacion no es válida');
@@ -74,61 +75,70 @@ const App = () => {
     closeModal();
   };
 
+  const aumentarPuntuacion = () => {
+    setPuntuacion(puntuacion + 5);
+  };
+
   // Personaje seleccionado
   const handleCharacterSelect = (characterName) => {
     setSelectedCharacter(characterName);
   };
 
   // Separacion del texto 
-  function separarTexto(response) {
-    if (response && response.text) {
-      const textoCompleto = response.text;
-      
-      const introduccionRegex = /(.+?)\nOpción 1: /;
-      const introduccionMatch = textoCompleto.match(introduccionRegex);
+    function getIntro(text) {
+    const option1Index = text.indexOf("Opción 1");
   
-      if (introduccionMatch) {
-        const introduccion = introduccionMatch[1].trim();
+    if (option1Index !== -1) {
+      const textBeforeOption1 = text.substring(0, option1Index);
+      return textBeforeOption1;
+    } else {
+      return "La frase 'Opción 1' no se encuentra en el texto.";
+    }
+  }
+
+  function getOpcion1(text) {
+    const option1Index = text.indexOf("Opción 1");
+    const option2Index = text.indexOf("Opción 2");
   
-        const opcion1YDescripcion = textoCompleto.split('Opción 2: ');
+    if (option1Index !== -1 && option2Index !== -1) {
+      const textBetweenOptions = text.substring(option1Index + 8, option2Index);
+      return textBetweenOptions;
+    } else {
+      return "No se encontraron ambas frases 'Opción 1' y 'Opción 2' en el texto.";
+    }
+  }
+
+  function getOpcion2(texto) {
+    const posicionOpcion2 = texto.indexOf('Opción 2');
   
-        if (opcion1YDescripcion.length === 2) {
-          const opcion1 = opcion1YDescripcion[0].trim();
-          const opcion2YDescripcion = opcion1YDescripcion[1].split('ENDING ENDING ENDING');
-  
-          if (opcion2YDescripcion.length === 2) {
-            const descripcionOpcion1 = opcion2YDescripcion[0].trim();
-            const opcion2Datos = opcion2YDescripcion[1].trim().split('Opción 2: ');
-  
-            let descripcionOpcion2 = '';
-            let opcion2 = 'Opción 2';
-  
-            if (opcion2Datos.length === 2) {
-              opcion2 = opcion2Datos[0].trim();
-              descripcionOpcion2 = opcion2Datos[1].trim();
-            }
-  
-            return {
-              introduccion: introduccion,
-              /*opcion1: opcion1,
-              descripcionOpcion1: descripcionOpcion1,
-              opcion2: opcion2,
-              descripcionOpcion2: descripcionOpcion2*/
-            };
-          }
-        } else {
-          return {
-            introduccion: introduccion,
-            opcion1: '',
-            descripcionOpcion1: '',
-            opcion2: 'Opción 2',
-            descripcionOpcion2: ''
-          };
-        }
-      }
+    if (posicionOpcion2 === -1) {
+      return null;
     }
   
-    return null;
+    const primeraPosicionSaltoDeLinea = texto.indexOf('\n', posicionOpcion2);
+  
+    if (primeraPosicionSaltoDeLinea === -1) {
+      return null;
+    }
+  
+    const segundaPosicionSaltoDeLinea = texto.indexOf('\n', primeraPosicionSaltoDeLinea + 1);
+  
+    if (segundaPosicionSaltoDeLinea === -1) {
+      return null;
+    }  
+    return texto.substring(primeraPosicionSaltoDeLinea + 1, segundaPosicionSaltoDeLinea);
+  }
+
+  // Obtener siguientes opciones
+  async function handleButtonClick(event) {
+    const button = event.target;
+    const id = button.getAttribute("data-id");
+    console.log("ID del botón presionado:", id);
+    /*const response = await generarCompletacion(String(buttonText));
+    console.log(response);
+    setIntro(getIntro(response));
+    setOpcion1(getOpcion1(response));
+    setOpcion2(getOpcion2(response));*/
   }
 
   return (
@@ -143,11 +153,13 @@ const App = () => {
         shouldCloseOnOverlayClick={false}
       >
         <h2>{selectedLevel && selectedLevel.name}</h2>
-        {selectedLevel && selectedLevel.locked ? (
-          <p>Este nivel está bloqueado.</p>
-        ) : (
-          <button onClick={completeLevel}>Opcion 1</button>
-        )}
+        <textarea
+          value={intro}
+          onChange={(e) => setIntro(e.target.value)}
+          className='textarea-custom'
+        />
+        <button className="custom-button" data-id={opcion1} onClick={handleButtonClick}>Opcion 1{opcion1}</button>
+        <button className="custom-button" data-id={opcion2} onClick={handleButtonClick}>Opcion 2: {opcion2}</button>
         <button onClick={closeModal}>Cerrar</button>
       </Modal>
         <div className="geometric-shape" style={{ top: '50px', left: '20px'}}></div>

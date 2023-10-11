@@ -1,3 +1,4 @@
+/* App general */
 .App {
   text-align: center;
   background-color: #6341B4;
@@ -49,6 +50,7 @@
   font-family: 'Fraunces', serif;
 }
 
+/* Atributos de los niveles y contenedores de niveles */
 .level-container {
   display: flex;
   justify-content: center;
@@ -74,6 +76,7 @@
   cursor: not-allowed;
 }
 
+/* Modal */
 .modal {
   background-color: #fff;
   padding: 20px;
@@ -81,6 +84,11 @@
   max-width: 700px;
   margin: 0 auto;
   text-align: center;
+  width: 1024px;
+  height: 500px;
+  background-image: url('./backgrounds/Paisaje4.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .overlay {
@@ -96,37 +104,30 @@
   bottom: 0;
 }
 
+/* Grid del tablero */
 .grid-container {
   display: grid;
-  grid-template-rows: repeat(16, 4.5cm); /* 8 filas de 3 cm de altura cada una */
-  grid-template-columns: repeat(9, 3.5cm); /* 11 columnas de 3 cm de ancho cada una */
-  gap: 10px; /* Espacio entre celdas */
-  justify-content: center; /* Centra el contenido horizontalmente */
-  align-content: center; /* Centra el contenido verticalmente */
-  height: auto; /* Altura del contenedor ajustada automáticamente */
+  grid-template-rows: repeat(16, 4.5cm);
+  grid-template-columns: repeat(9, 3.5cm);
+  gap: 10px;
+  justify-content: center;
+  align-content: center;
+  height: auto;
 }
 
 .grid-item {
-  /* Estilos para cada celda del grid */
   border: 1px solid #aca6a600;
   text-align: center;
   padding: 10px;
   cursor: pointer;
-  width: 3cm; /* Ancho de la celda */
-  height: 3cm; /* Altura de la celda */
-  display: flex; /* Para usar flexbox para centrar el contenido */
-  justify-content: center; /* Centra horizontalmente en el grid-item */
-  align-items: center; /* Centra verticalmente en el grid-item */
+  width: 3cm;
+  height: 3cm;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.image {
-  background-image: url('https://th.bing.com/th/id/OIP.YciYFjv-v-gcv1bLkeSOGgHaHa?pid=ImgDet&rs=1'); /* Ruta de la imagen */
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100%;
-  height: 100%;
-}
-
+/* Titulos y textos */
 h1 {
   font-size: 60px;
   color: #DAFA8B; /* Establece el color del texto en amarillo */
@@ -142,18 +143,19 @@ h1 {
   font-size: 25px;
 }
 
+/* Campeones */
 .centered-container {
   display: flex;
-  justify-content: center; /* Centra los cuadros horizontalmente */
-  align-items: center; /* Centra los cuadros verticalmente */
-  max-width: 800px; /* Establece el ancho máximo del contenedor */
-  margin: 0 auto; /* Centra el contenedor en la pantalla */
+  justify-content: center;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .image-box {
-  background-color: #DAFA8B; /* Fondo amarillo */
-  padding: 10px; /* Espacio interior */
-  margin-right: 10px; /* Espacio entre las imágenes */
+  background-color: #DAFA8B;
+  padding: 10px;
+  margin-right: 10px;
   border-bottom-left-radius: 35px;
   border-bottom-right-radius: 35px;
   border-top-left-radius: 35px;
@@ -161,12 +163,12 @@ h1 {
 }
 
 .image-box:hover {
-  background-color: #F85ACA; /* Fondo amarillo */
+  background-color: #F85ACA;
 }
 
 img {
-  max-width: 100%; /* Ajusta el ancho máximo de las imágenes */
-  height: auto; /* Mantén la proporción de aspecto */
+  max-width: 100%;
+  height: auto;
 }
 
 p {
@@ -197,6 +199,7 @@ p {
   animation: move 2s infinite; /* Nombre de la animación y duración */
 }
 
+/* Imagenes de las leyendas */
 .regalito:hover {
   height: 100px;
   width: 500px;
@@ -213,10 +216,26 @@ p {
   z-index: 999;
 }
 
-.modal {
-  width: 1024px;
-  height: 500px;
-  background-image: url('./backgrounds/Paisaje4.jpeg');
-  background-size: cover;
-  background-repeat: no-repeat;
+.custom-button {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.textarea-custom {
+  word-wrap: break-word;
+  width: 90%;
+  height: auto;
+  resize: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
 }

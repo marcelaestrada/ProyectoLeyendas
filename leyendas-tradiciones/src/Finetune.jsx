@@ -133,7 +133,7 @@ async function main() {
 // Función para generar completaciones de texto
 async function generarCompletacion(prompt) {
   try {
-    const openai = new OpenAI({   apiKey: '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',
+    const openai = new OpenAI({   apiKey: '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',
                                   dangerouslyAllowBrowser: true   });
 
     const completion = await openai.completions.create({
@@ -147,10 +147,8 @@ async function generarCompletacion(prompt) {
       presence_penalty:0,
       stop:["_END"]
     });
-    console.log(completion.choices[0]);
 
-    //return completion.choices[0].text;
-    return completion.choices[0];
+    return completion.choices[0]['text'];
   } catch (error) {
     console.error("Error al generar la completación:", error);
     throw error;
