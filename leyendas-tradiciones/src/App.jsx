@@ -16,19 +16,16 @@ import Antorchas from './characters/Antorchas.png'
 import FiestaPatronal from './characters/Fiesta patronal.png'
 import Punta from './characters/Punta.png'
 
+var turnos = 0;
+var character = "";
+
 // Modal
 Modal.setAppElement('#root');
 
 const App = () => {
-  const [levels, setLevels] = useState([
-    { id: 1, name: 'Nivel 1', locked: false },
-    { id: 2, name: 'Nivel 2', locked: true },
-    { id: 3, name: 'Nivel 3', locked: true },
-  ]);
 
   const [puntuacion, setPuntuacion] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedLevel, setSelectedLevel] = useState(null);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   var [intro, setIntro] = useState(0);
   var [opcion1, setOpcion1] = useState(null);
@@ -38,23 +35,20 @@ const App = () => {
   const openModal = async (imageId, level) => {
     try {
       var response = "";
+      character = imageId.split("Start ")[1];
+      console.log(character);
 
       do {
         response = await generarCompletacion(imageId);
       } while (!(response.includes("Opción 1") && response.includes("Opción 2") && response.includes("END")));
 
-      console.log(response)
       if (response) {
-        setSelectedLevel(level);
         setModalIsOpen(true);
   
         setIntro(getIntro(response));
         setOpcion1(getOpcion1(response));
         setOpcion2(getOpcion2(response));
-
-        console.log("Intro:", intro);
-        console.log("Opcion 1:", opcion1);
-        console.log("Opcion 2:", opcion2);
+        turnos = turnos + 1;
 
       } else {
         console.error('La respuesta de generarCompletacion no es válida');
@@ -66,17 +60,6 @@ const App = () => {
 
   const closeModal = () => {
     setModalIsOpen(false);
-  };
-
-  // Niveles
-  const completeLevel = () => {
-    const updatedLevels = levels.map((level) =>
-      level.id === selectedLevel.id
-        ? { ...level, locked: false }
-        : level
-    );
-    setLevels(updatedLevels);
-    closeModal();
   };
 
   const aumentarPuntuacion = () => {
@@ -127,7 +110,6 @@ const App = () => {
       return null;
     }
   
-    console.log(textoDespuesOpcion2.substring(0, posicionEnd));
     return textoDespuesOpcion2.substring(0, posicionEnd);
   }  
 
@@ -137,36 +119,54 @@ const App = () => {
     const presionado = button.getAttribute("data-id");
     var response = "";
     
-    do {
-      response = await generarCompletacion("Dame un texto corto de la historia y dos opciones diferentes para continuar la historia si eligieron la opcion " + String(presionado));
-    } while (!(response.includes("Opción 1") && response.includes("Opción 2") && response.includes("END")));
+    if(turnos<10){
+      do {
+        response = await generarCompletacion("Dame un texto corto de la historia y dos opciones diferentes para continuar la historia si eligieron la opcion " + String(presionado));
+      } while (!(response.includes("Opción 1") && response.includes("Opción 2") && response.includes("END")));
+  
+      setIntro(getIntro(response));
+      setOpcion1(getOpcion1(response));
+      setOpcion2(getOpcion2(response));
+      turnos = turnos + 1;
+    } else {
+      do {
+        response = await generarCompletacion("Dame un final para la historia de " + character);
+      } while (!(response.includes("Opción 1") && response.includes("Opción 2") && response.includes("END")));
 
-    setIntro(getIntro(response));
-    setOpcion1(getOpcion1(response));
-    setOpcion2(getOpcion2(response));
+      setIntro(response);
+      setOpcion1(getOpcion1(response));
+      setOpcion2(getOpcion2(response));
+      turnos = 0;
+      character = "";
+      aumentarPuntuacion();
+    }
   }
 
   return (
     <div className="App">
       <div className='App-header'>
-      <h1>Guatemala y sus misterios</h1>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        className="modal"
-        overlayClassName="overlay"
-        shouldCloseOnOverlayClick={false}
-      >
-        <h2>{selectedLevel && selectedLevel.name}</h2>
-        <textarea
-          value={intro}
-          onChange={(e) => setIntro(e.target.value)}
-          className='textarea-custom'
-        />
-        <button className="custom-button" data-id={opcion1} onClick={handleButtonClick}>Opcion 1{opcion1}</button>
-        <button className="custom-button" data-id={opcion2} onClick={handleButtonClick}>Opcion 2{opcion2}</button>
-        <button onClick={closeModal}>Cerrar</button>
-      </Modal>
+        <h1>Guatemala y sus misterios</h1>
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          className="modal"
+          overlayClassName="overlay"
+          shouldCloseOnOverlayClick={false}
+        >
+          <p>Turno: {turnos}</p>
+          <textarea
+            value={intro}
+            onChange={(e) => setIntro(e.target.value)}
+            className='textarea-custom'
+          />
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <button className="custom-button" data-id={opcion1} onClick={handleButtonClick}>Opcion 1{opcion1}</button>
+          <button className="custom-button" data-id={opcion2} onClick={handleButtonClick}>Opcion 2{opcion2}</button>
+          <button onClick={closeModal}>Cerrar</button>
+        </Modal>
         <div className="geometric-shape" style={{ top: '50px', left: '20px'}}></div>
         <div className="geometric-shape" style={{ top: '80px', left: '100px' }}></div>
       </div>

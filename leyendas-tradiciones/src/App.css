@@ -86,7 +86,7 @@
   text-align: center;
   width: 1024px;
   height: 500px;
-  background-color: #F85ACA;
+  background-image: url('./backgrounds/Paisaje4.jpeg');
   background-size: cover;
   background-repeat: no-repeat;
   display: block;
@@ -104,7 +104,6 @@
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
 }
 
 /* Grid del tablero */
@@ -137,7 +136,7 @@ h1 {
 }
 
 .puntos h1 {
-  color: #F85ACA;
+  color: #DAFA8B;
 }
 
 .puntuacion h1 {
@@ -236,11 +235,14 @@ p {
   width: 90%;
   height: 20%;
   resize: none;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0);
   padding: 10px;
   overflow: hidden;
   font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  text-align: center;
 }
 
 .custom-button:hover {

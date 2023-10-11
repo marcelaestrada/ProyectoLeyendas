@@ -133,7 +133,7 @@ async function main() {
 // Función para generar completaciones de texto
 async function generarCompletacion(prompt) {
   try {
-    const openai = new OpenAI({   apiKey: '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',
+    const openai = new OpenAI({   apiKey: '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',
                                   dangerouslyAllowBrowser: true   });
 
     const completion = await openai.completions.create({
