@@ -86,9 +86,12 @@
   text-align: center;
   width: 1024px;
   height: 500px;
-  background-image: url('./backgrounds/Paisaje4.jpeg');
+  background-color: #F85ACA;
   background-size: cover;
   background-repeat: no-repeat;
+  display: block;
+  justify-content: center;
+  align-items: center;
 }
 
 .overlay {
@@ -130,7 +133,7 @@
 /* Titulos y textos */
 h1 {
   font-size: 60px;
-  color: #DAFA8B; /* Establece el color del texto en amarillo */
+  color: #DAFA8B; 
 }
 
 .puntos h1 {
@@ -183,7 +186,7 @@ p {
     transform: translateX(0);
   }
   50% {
-    transform: translateX(10px); /* Cambia la distancia de movimiento */
+    transform: translateX(10px);
   }
   100% {
     transform: translateX(0);
@@ -192,11 +195,11 @@ p {
 
 .geometric-shape {
   position: absolute;
-  background-color: #ff66a3; /* Color de fondo */
-  width: 50px; /* Ancho */
-  height: 50px; /* Alto */
-  border-radius: 50%; /* Forma circular */
-  animation: move 2s infinite; /* Nombre de la animación y duración */
+  background-color: #ff66a3;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  animation: move 2s infinite;
 }
 
 /* Imagenes de las leyendas */
@@ -217,8 +220,8 @@ p {
 }
 
 .custom-button {
-  background-color: #007BFF;
-  color: #fff;
+  background-color: #DAFA8B;
+  color: #000000;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -231,11 +234,16 @@ p {
 .textarea-custom {
   word-wrap: break-word;
   width: 90%;
-  height: auto;
+  height: 20%;
   resize: none;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
   overflow: hidden;
   font-family: 'Poppins', sans-serif;
+}
+
+.custom-button:hover {
+  background-color: #6341B4;
+  color: #ffffff;
 }

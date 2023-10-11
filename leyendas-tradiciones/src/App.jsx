@@ -30,16 +30,20 @@ const App = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
-  const [intro, setIntro] = useState(0);
-  const [opcion1, setOpcion1] = useState(false);
-  const [opcion2, setOpcion2] = useState(null);
+  var [intro, setIntro] = useState(0);
+  var [opcion1, setOpcion1] = useState(null);
+  var [opcion2, setOpcion2] = useState(null);
 
   // Modal y modelo ChatGPT
   const openModal = async (imageId, level) => {
     try {
-      const response = await generarCompletacion(imageId);
-      console.log(response)
+      var response = "";
 
+      do {
+        response = await generarCompletacion(imageId);
+      } while (!(response.includes("Opción 1") && response.includes("Opción 2") && response.includes("END")));
+
+      console.log(response)
       if (response) {
         setSelectedLevel(level);
         setModalIsOpen(true);
@@ -115,30 +119,31 @@ const App = () => {
       return null;
     }
   
-    const primeraPosicionSaltoDeLinea = texto.indexOf('\n', posicionOpcion2);
+    const textoDespuesOpcion2 = texto.substring(posicionOpcion2 + 'Opción 2'.length);
   
-    if (primeraPosicionSaltoDeLinea === -1) {
+    const posicionEnd = textoDespuesOpcion2.indexOf('END');
+  
+    if (posicionEnd === -1) {
       return null;
     }
   
-    const segundaPosicionSaltoDeLinea = texto.indexOf('\n', primeraPosicionSaltoDeLinea + 1);
-  
-    if (segundaPosicionSaltoDeLinea === -1) {
-      return null;
-    }  
-    return texto.substring(primeraPosicionSaltoDeLinea + 1, segundaPosicionSaltoDeLinea);
-  }
+    console.log(textoDespuesOpcion2.substring(0, posicionEnd));
+    return textoDespuesOpcion2.substring(0, posicionEnd);
+  }  
 
   // Obtener siguientes opciones
   async function handleButtonClick(event) {
     const button = event.target;
-    const id = button.getAttribute("data-id");
-    console.log("ID del botón presionado:", id);
-    /*const response = await generarCompletacion(String(buttonText));
-    console.log(response);
+    const presionado = button.getAttribute("data-id");
+    var response = "";
+    
+    do {
+      response = await generarCompletacion("Dame un texto corto de la historia y dos opciones diferentes para continuar la historia si eligieron la opcion " + String(presionado));
+    } while (!(response.includes("Opción 1") && response.includes("Opción 2") && response.includes("END")));
+
     setIntro(getIntro(response));
     setOpcion1(getOpcion1(response));
-    setOpcion2(getOpcion2(response));*/
+    setOpcion2(getOpcion2(response));
   }
 
   return (
@@ -159,7 +164,7 @@ const App = () => {
           className='textarea-custom'
         />
         <button className="custom-button" data-id={opcion1} onClick={handleButtonClick}>Opcion 1{opcion1}</button>
-        <button className="custom-button" data-id={opcion2} onClick={handleButtonClick}>Opcion 2: {opcion2}</button>
+        <button className="custom-button" data-id={opcion2} onClick={handleButtonClick}>Opcion 2{opcion2}</button>
         <button onClick={closeModal}>Cerrar</button>
       </Modal>
         <div className="geometric-shape" style={{ top: '50px', left: '20px'}}></div>
